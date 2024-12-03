@@ -10,225 +10,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATABASE_PATH = os.path.join(BASE_DIR, 'movies.db')
 
 # Set up logging
-logging.basicConfig(
-    filename=os.path.join(BASE_DIR, 'app.log'),
-    level=logging.INFO,
-    format='%(asctime)s %(levelname)s:%(message)s'
-)
-
-# PLATFORM_STANDARDIZATION dictionary (used for data standardization)
-PLATFORM_STANDARDIZATION = {
-    "A&E Crime Central Apple TV Channel": "A&E Crime Central",
-    "ALLBLK": "ALLBLK",
-    "ALLBLK Amazon channel": "ALLBLK",
-    "ALLBLK Apple TV channel": "ALLBLK",
-    "AMC": "AMC",
-    "AMC Plus Apple TV Channel": "AMC+",
-    "AMC+": "AMC+",
-    "AMC+ Amazon Channel": "AMC+",
-    "AMC+ Roku Premium Channel": "AMC+",
-    "ARROW": "ARROW",
-    "Acorn TV": "Acorn TV",
-    "Acorn TV Apple TV": "Acorn TV",
-    "AcornTV Amazon Channel": "Acorn TV",
-    "Apple TV Plus": "Apple TV+",
-    "Apple TV Plus Amazon Channel": "Apple TV+",
-    "AsianCrush": "AsianCrush",
-    "BBC America": "BBC America",
-    "BET+  Apple TV channel": "BET+",
-    "Bet+": "BET+",
-    "Bet+ Amazon Channel": "BET+",
-    "BritBox": "BritBox",
-    "BritBox Amazon Channel": "BritBox",
-    "Britbox Apple TV Channel": "BritBox",
-    "Chai Flicks": "Chai Flicks",
-    "Cinemax Amazon Channel": "Cinemax",
-    "Cinemax Apple TV Channel": "Cinemax",
-    "Cineverse": "Cineverse",
-    "Cohen Media Amazon Channel": "Cohen Media",
-    "Criterion Channel": "Criterion Channel",
-    "Crunchyroll": "Crunchyroll",
-    "Crunchyroll Amazon Channel": "Crunchyroll",
-    "Cultpix": "Cultpix",
-    "Dekkoo": "Dekkoo",
-    "Disney+": "Disney+",
-    "DisneyNOW": "DisneyNOW",
-    "Epix Amazon Channel": "Epix",
-    "Eros Now Select Apple TV Channel": "Eros Now Select",
-    "FXNow": "FXNow",
-    "Fandor": "Fandor",
-    "Fandor Amazon Channel": "Fandor",
-    "Film Movement Plus": "Film Movement Plus",
-    "FilmBox+": "FilmBox+",
-    "Flix Premiere": "Flix Premiere",
-    "FlixFling": "FlixFling",
-    "Freeform": "Freeform",
-    "Full Moon Amazon Channel": "Full Moon",
-    "GuideDoc": "GuideDoc",
-    "HBO Max": "HBO Max",
-    "Hallmark Movies Now Amazon Channel": "Hallmark Movies Now",
-    "Hallmark Movies Now Apple TV Channel": "Hallmark Movies Now",
-    "Hi-YAH": "Hi-YAH",
-    "HiDive": "HiDive",
-    "History Vault": "History Vault",
-    "Hoichoi": "Hoichoi",
-    "Hoopla": "Hoopla",
-    "Hulu": "Hulu",
-    "IFC Films Unlimited Apple TV Channel": "IFC Films Unlimited",
-    "IndieFlix": "IndieFlix",
-    "Kanopy": "Kanopy",
-    "Kino Film Collection": "Kino Film Collection",
-    "Klassiki": "Klassiki",
-    "Kocowa": "Kocowa",
-    "Lifetime Movie Club": "Lifetime Movie Club",
-    "Lifetime Movie Club Amazon Channel": "Lifetime Movie Club",
-    "Lifetime Movie Club Apple TV Channel": "Lifetime Movie Club",
-    "MGM Plus": "MGM+",
-    "MGM Plus Roku Premium Channel": "MGM+",
-    "MUBI": "MUBI",
-    "MUBI Amazon Channel": "MUBI",
-    "MZ Choice Amazon Channel": "MZ Choice",
-    "Max": "HBO Max",
-    "Metrograph": "Metrograph",
-    "Midnight Pulp": "Midnight Pulp",
-    "NBC": "NBC",
-    "Netflix": "Netflix",
-    "Netflix Kids": "Netflix",
-    "Night Flight Plus": "Night Flight Plus",
-    "OVID": "OVID",
-    "OnDemandKorea": "OnDemandKorea",
-    "Paramount Plus": "Paramount+",
-    "Paramount Plus Apple TV Channel": "Paramount+",
-    "Paramount+ Amazon Channel": "Paramount+",
-    "Paramount+ Roku Premium Channel": "Paramount+",
-    "Paramount+ with Showtime": "Paramount+",
-    "Peacock Premium": "Peacock",
-    "Peacock Premium Plus": "Peacock",
-    "Prime Video": "Prime Video",
-    "Pure Flix": "Pure Flix",
-    "Rakuten Viki": "Rakuten Viki",
-    "Retrocrush": "Retrocrush",
-    "Screambox": "Screambox",
-    "Screambox Amazon Channel": "Screambox",
-    "ScreenPix Apple TV Channel": "ScreenPix",
-    "Shahid VIP": "Shahid VIP",
-    "Shudder": "Shudder",
-    "Shudder Amazon Channel": "Shudder",
-    "Shudder Apple TV Channel": "Shudder",
-    "Spectrum On Demand": "Spectrum On Demand",
-    "Starz": "Starz",
-    "Starz Amazon Channel": "Starz",
-    "Starz Apple TV Channel": "Starz",
-    "Starz Roku Premium Channel": "Starz",
-    "Strand Releasing Amazon Channel": "Strand Releasing",
-    "Sun Nxt": "Sun Nxt",
-    "Sundance Now": "Sundance Now",
-    "TBS": "TBS",
-    "TCM": "TCM",
-    "TNT": "TNT",
-    "Troma NOW": "Troma NOW",
-    "UP Faith & Family Apple TV Channel": "UP Faith & Family",
-    "USA Network": "USA Network",
-    "VIX": "VIX",
-    "Vix Gratis Amazon Channel": "VIX",
-    "aha": "aha",
-    "fuboTV": "fuboTV",
-    "iQIYI": "iQIYI",
-    "tru TV": "tru TV"
-}
-
-# Define platform popularity ranking (used for ordering platforms in the UI)
-POPULAR_PLATFORMS = [
-    "Netflix",
-    "Prime Video",
-    "Disney+",
-    "HBO Max",
-    "Hulu",
-    "Apple TV+",
-    "Paramount+",
-    "Peacock",
-    "Starz",
-    "Showtime",
-    "AMC+",
-    "MUBI",
-    "Crunchyroll",
-    "Acorn TV",
-    "Shudder",
-    "Sundance Now",
-    "BritBox",
-    "Kanopy",
-    "Hoopla",
-    "Criterion Channel",
-    "Epix",
-    "Cinemax",
-    "Hallmark Movies Now",
-    "BET+",
-    "History Vault",
-    "fuboTV",
-    "Tubi",
-    "Max",  # HBO Max may also be referred to as Max
-    "BBC America",
-    "FXNow",
-    "NBC",
-    "Spectrum On Demand",
-    "Rakuten Viki",
-    "Midnight Pulp",
-    "IndieFlix",
-    "Dekkoo",
-    "AsianCrush",
-    "Hi-YAH",
-    "Retrocrush",
-    "Shahid VIP",
-    "iQIYI",
-    "Night Flight Plus",
-    "MZ Choice",
-    "Fandor",
-    "Film Movement Plus",
-    "Full Moon",
-    "Metrograph",
-    "MGM+",
-    "ARROW",
-    "ALLBLK",
-    "A&E Crime Central",
-    "Chai Flicks",
-    "Cohen Media",
-    "Cultpix",
-    "Eros Now Select",
-    "FilmBox+",
-    "Flix Premiere",
-    "FlixFling",
-    "GuideDoc",
-    "Hoichoi",
-    "IFC Films Unlimited",
-    "Kino Film Collection",
-    "Klassiki",
-    "Kocowa",
-    "Lifetime Movie Club",
-    "OnDemandKorea",
-    "OVID",
-    "Pure Flix",
-    "ScreenPix",
-    "Strand Releasing",
-    "Sun Nxt",
-    "TCM",
-    "TBS",
-    "TNT",
-    "Troma NOW",
-    "UP Faith & Family",
-    "USA Network",
-    "VIX",
-    "aha",
-    "tru TV"
-]
-
-# Combine with any remaining platforms not already in POPULAR_PLATFORMS
-remaining_platforms = [
-    platform for platform in sorted(set(PLATFORM_STANDARDIZATION.values()))
-    if platform not in POPULAR_PLATFORMS
-]
-
-# Final ordered list of platforms to be displayed
-PLATFORMS_LIST = POPULAR_PLATFORMS + remaining_platforms
+logging.basicConfig(level=logging.INFO)
 
 def create_database():
     conn = sqlite3.connect(DATABASE_PATH)
@@ -253,6 +35,7 @@ def create_database():
         keywords TEXT
     )
     ''')
+    
     conn.commit()
     conn.close()
 
@@ -273,14 +56,14 @@ def insert_movie(movie):
         movie['genres'],  
         movie.get('runtime', None),  
         movie.get('stars', None),  
-        ', '.join(movie.get('platforms', [])),  
+        ','.join(movie.get('platforms', [])),  
         movie['poster_url'],
-        ', '.join(movie.get('actors', [])),
+        movie.get('actors', None),
         movie.get('language', None),
-        ', '.join(movie.get('directors', [])),
-        movie.get('budget', 0),
-        movie.get('revenue', 0),
-        ', '.join(movie.get('keywords', []))
+        movie.get('directors', None),
+        movie.get('budget', None),
+        movie.get('revenue', None),
+        movie.get('keywords', None)
     ))
 
     conn.commit()
@@ -307,9 +90,9 @@ def get_random_movie(platforms):
     random_movie = dict(zip(columns, random.choice(movies)))
     return random_movie
 
-@app.route('/')
-def home():
-    return render_template('movipickr.html', platforms=PLATFORMS_LIST)
+@app.route('/') 
+def home(): 
+    return render_template('movipickr.html')  # Ensure this matches your actual file name
 
 @app.route('/select-platforms', methods=['POST'])
 def select_platforms():
@@ -347,11 +130,8 @@ def random_movie():
     conn.close()
     return jsonify(random_movie)
 
-# Initialize the database if it doesn't exist
-if not os.path.exists(DATABASE_PATH):
-    create_database()
-    # Optionally, populate your database here with insert_movie()
+def main():
+    app.run() # comment out when deploying on cPanel
 
-# Ensure the app runs only when executed directly
 if __name__ == '__main__':
-    app.run(debug=False)
+    main()

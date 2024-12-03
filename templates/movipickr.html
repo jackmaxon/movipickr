@@ -1,309 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta Tags and Title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>movipickr!</title>
-
-    <!-- Styles -->
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding-left: 20px;
-            padding-right: 20px;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        /* Centering Content */
-        #content-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100%;
-        }
-
-        /* Platform Container */
-        #platform-container {
-            text-align: center;
-        }
-
-        #platforms-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            max-width: 600px;
-            margin: 0 auto 20px;
-        }
-
-        #platforms-wrapper label {
-            width: 100%;
-            text-align: left;
-        }
-
-        @media (min-width: 768px) {
-            #platforms-wrapper label {
-                width: 50%;
-            }
-        }
-
-        .show-more {
-            display: block;
-            margin-top: 10px;
-            cursor: pointer;
-            color: #007BFF;
-            text-decoration: underline;
-        }
-
-        /* Buttons */
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        /* Movie Container */
-        .movie-container {
-            display: none;
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: center;
-            margin: auto;
-            gap: 20px;
-            max-width: 1200px;
-        }
-
-        .poster {
-            flex: 0 0 50%;
-            max-width: 100%;
-            max-height: 80vh;
-            object-fit: contain;
-        }
-
-        .movie-details {
-            max-width: calc(100% - 40px);
-            box-sizing: border-box;
-        }
-
-        .movie-info p {
-            margin: 5px 0;
-        }
-
-        .get-another {
-            margin-bottom: 15px;
-            padding: 8px 16px;
-            cursor: pointer;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            align-self: flex-start;
-        }
-
-        .show-more {
-            display: block;
-            width: 100%;          /* Make the link span the full width */
-            margin-top: 10px;
-            cursor: pointer;
-            color: #6400d7;       /* Link color */
-            text-decoration: underline;
-            font-weight: bold;
-            text-align: center;   /* Center the text */
-        }
-
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .movie-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .movie-details {
-                padding-left: 0;
-                width: 100%;
-                align-items: center;
-            }
-
-            .get-another {
-                align-self: center;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../static/style.css">
 </head>
 <body>
+    <div id="platform-container">
+        <h1>Select Your Streaming Platforms</h1>
+        <form id="platform-form">
+            <label><input type="checkbox" name="platforms" value="Netflix"> Netflix</label><br>
+            <label><input type="checkbox" name="platforms" value="Hulu"> Hulu</label><br>
+            <label><input type="checkbox" name="platforms" value="Disney+"> Disney+</label><br>
+            <label><input type="checkbox" name="platforms" value="HBO Max"> HBO Max</label><br>
+            <label><input type="checkbox" name="platforms" value="Prime Video"> Prime Video</label><br>
+            <label><input type="checkbox" name="platforms" value="Apple TV+"> Apple TV+</label><br>
+            <button type="submit">Show Me a Movie</button>
+        </form>
+    </div>
 
-    <div id="content-container">
-        <!-- Platform Selection -->
-        <div id="platform-container">
-            <h1>Select Your Streaming Platforms</h1>
-            <form id="platform-form">
-                <div id="platforms-wrapper">
-                    <!-- Platforms will be injected here -->
-                </div>
-                <button type="submit">Show Me a Movie</button>
-            </form>
-        </div>
-
-        <!-- Movie Display -->
-        <div class="movie-container" id="movie-container">
-            <img src="" alt="Movie Poster" class="poster" id="movie-poster">
-            <div class="movie-details">
-                <button class="get-another" id="next-movie-btn">Get another movie</button>
-                <div class="movie-info">
-                    <h1 class="title" id="movie-title">Title</h1>
-                    <i><p class="release-date" id="movie-release-date">Release Date</p></i>
-                    <p class="genres" id="movie-genres">Genres</p>
-                    <p class="runtime" id="movie-runtime">Runtime</p>
-                    <p class="stars" id="movie-stars">Stars</p>
-                    <p class="platforms" id="movie-platforms">Streaming on: Platforms</p><br>
-                    <p class="overview" id="movie-overview">Overview</p>
-                </div>
+    <div class="movie-container" style="display: none;" id="movie-container">
+        <img src="" alt="Movie Poster" class="poster" id="movie-poster">
+        <div class="movie-details">
+            <button class="get-another" id="next-movie-btn">Get another movie</button>
+            <div class="movie-info">
+                <h1 class="title" id="movie-title">Title</h1>
+                <i><p class="release-date" id="movie-release-date">Release Date</p></i>
+                <p class="genres" id="movie-genres">Genres</p>
+                <p class="runtime" id="movie-runtime">Runtime</p>
+                <p class="stars" id="movie-stars">Stars</p>
+                <p class="platforms" id="movie-platforms">Streaming on: Platforms</p><br>
+                <p class="overview" id="movie-overview">Overview</p>
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script>
-        // Platforms passed from Flask to JavaScript
-        const platforms = {{ platforms | tojson }};
-        
-        let displayedPlatforms = 0;
-        const platformsWrapper = document.getElementById('platforms-wrapper');
-
-        function getIncrement() {
-            return window.innerWidth >= 768 ? 10 : 10; // Initial platforms to display
-        }
-
-        function getPerClickIncrement() {
-            return window.innerWidth >= 768 ? 5 : 10; // Platforms per "Show More" click
-        }
-
-        function renderPlatforms() {
-            platformsWrapper.innerHTML = ''; // Clear existing platforms
-
-            const totalPlatforms = platforms.length;
-            const platformsToShow = platforms.slice(0, displayedPlatforms);
-
-            // Create platform checkboxes
-            const platformElements = platformsToShow.map(platform => {
-                return `<label>
-                            <input type="checkbox" name="platforms" value="${platform}"> ${platform}
-                        </label>`;
-            });
-
-            platformsWrapper.innerHTML = platformElements.join('');
-
-            if (displayedPlatforms < totalPlatforms) {
-                // Add "Show More" link
-                const showMoreLink = document.createElement('a');
-                showMoreLink.href = "#";
-                showMoreLink.textContent = "(...)";
-                showMoreLink.className = 'show-more';
-                showMoreLink.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    displayedPlatforms += getPerClickIncrement();
-                    renderPlatforms();
-                });
-                platformsWrapper.appendChild(showMoreLink);
-            }
-        }
-
-        function initializePlatforms() {
-            displayedPlatforms = getIncrement();
-            renderPlatforms();
-        }
-
-        // Initialize platforms on page load
-        initializePlatforms();
-
-        // Re-render platforms on window resize
-        window.addEventListener('resize', function() {
-            initializePlatforms();
-        });
-
-        // Event Listeners for Form Submission and Fetching Movies
-        document.querySelector('#platform-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const platformsSelected = Array.from(document.querySelectorAll('input[name="platforms"]:checked'))
-                                    .map(checkbox => checkbox.value);
-            fetchMovie(platformsSelected);
-        });
-
-        document.querySelector('#next-movie-btn').addEventListener('click', function() {
-            const platformsSelected = Array.from(document.querySelectorAll('input[name="platforms"]:checked'))
-                                    .map(checkbox => checkbox.value);
-            fetchMovie(platformsSelected);
-        });
-
-        // Fetch Movie Function
-        function fetchMovie(platforms) {
-            if (platforms.length === 0) {
-                alert("Please select at least one platform.");
-                return;
-            }
-
-            // URL-encode each platform
-            const encodedPlatforms = platforms.map(encodeURIComponent).join(',');
-            // Get the base URL dynamically
-            const baseUrl = window.location.pathname.replace(/\/$/, '');
-
-            fetch(`${baseUrl}/movie/random?platforms=${encodedPlatforms}`)
-
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Network response was not ok: ${response.statusText}`);
-                    }
-                    return response.json();
-                })
-                .then(movie => {
-                    if (movie.error) {
-                        alert(movie.error);
-                        // Redirect back to platform selection
-                        document.querySelector('#platform-container').style.display = 'block';
-                        document.querySelector('#movie-container').style.display = 'none';
-                    } else {
-                        preloadImage(movie.poster_url, 
-                            function(url) {
-                                document.querySelector('#movie-poster').src = url;
-                            }, 
-                            function() {
-                                document.querySelector('#movie-poster').src = '{{ url_for('static', filename='default-poster.jpg') }}';
-                            }
-                        );
-                        
-                        document.querySelector('#movie-title').innerText = movie.title;
-                        document.querySelector('#movie-release-date').innerText = movie.release_date;
-                        document.querySelector('#movie-genres').innerText = movie.genres;
-                        document.querySelector('#movie-runtime').innerText = movie.runtime;
-                        document.querySelector('#movie-stars').innerText = movie.stars;
-                        document.querySelector('#movie-platforms').innerText = 'Streaming on: ' + movie.platforms;
-                        document.querySelector('#movie-overview').innerText = movie.overview;
-
-                        document.querySelector('#platform-container').style.display = 'none';
-                        document.querySelector('#movie-container').style.display = 'flex';
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching movie:', error);
-                    alert('An error occurred while fetching the movie. Please try again later.');
-                });
-        }
-
-        // Preload Image Function
-        function preloadImage(url, onSuccess, onError) {
-            const img = new Image();
-            img.onload = function() {
-                onSuccess(url);
-            };
-            img.onerror = function() {
-                onError();
-            };
-            img.src = url;
-        }
-    </script>
-
+    <script src="../static/script.js"></script>
 </body>
 </html>
