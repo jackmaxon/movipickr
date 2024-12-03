@@ -70,8 +70,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let apiUrl = "/movie/random";
         if (platforms) {
-            apiUrl += `?platforms=${platforms.join(',')}`;
+            const encodedPlatforms = platforms.map(encodeURIComponent); // Encode each platform
+            apiUrl += `?platforms=${encodedPlatforms.join(',')}`; // Join as a single comma-separated string
         }
+                  
 
         fetch(apiUrl)
             .then(response => {
