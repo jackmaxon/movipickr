@@ -10,15 +10,11 @@
     <div id="platform-container">
         <h1>Select Your Streaming Platforms</h1>
         <form id="platform-form">
-            <label><input type="checkbox" name="platforms" value="Netflix"> Netflix</label><br>
-            <label><input type="checkbox" name="platforms" value="Hulu"> Hulu</label><br>
-            <label><input type="checkbox" name="platforms" value="Disney+"> Disney+</label><br>
-            <label><input type="checkbox" name="platforms" value="HBO Max"> HBO Max</label><br>
-            <label><input type="checkbox" name="platforms" value="Prime Video"> Prime Video</label><br>
-            <label><input type="checkbox" name="platforms" value="Apple TV+"> Apple TV+</label><br>
+            <!-- Dynamically filled checkboxes will go here -->
+            <div id="platform-checkboxes"></div>
             <button type="submit">Show Me a Movie</button>
         </form>
-    </div>
+    </div>    
 
     <div class="movie-container" style="display: none;" id="movie-container">
         <img src="" alt="Movie Poster" class="poster" id="movie-poster">

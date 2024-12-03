@@ -1,5 +1,6 @@
 import sqlite3
-# this program is just for database manipulation and making queries 
+from platform_data import PLATFORM_STANDARDIZATION, POPULAR_PLATFORMS
+# this program is just for database manipulation and making (possibly complex) queries 
 
 def get_unique_providers():
     conn = sqlite3.connect('movies.db')
@@ -38,3 +39,42 @@ def get_popular_platforms():
     conn.close()
 
     return platforms
+
+def standardize_platforms():
+    # Connect to the database
+    conn = sqlite3.connect('movies.db')
+    cursor = conn.cursor()
+
+    # Fetch all movie records
+    cursor.execute("SELECT id, platforms FROM movies")
+    rows = cursor.fetchall()
+
+    for row in rows:
+        movie_id, platforms = row
+
+        if platforms:  # Ensure the field is not NULL
+            # Split the comma-separated platforms, standardize them, and join back
+            platform_list = [platform.strip() for platform in platforms.split(",")]
+            standardized_list = [
+                PLATFORM_STANDARDIZATION.get(platform, platform) for platform in platform_list
+            ]
+            standardized_platforms = ", ".join(sorted(set(standardized_list)))  # Remove duplicates and sort
+
+            # Update the database with standardized platforms
+            cursor.execute(
+                "UPDATE movies SET platforms = ? WHERE id = ?",
+                (standardized_platforms, movie_id)
+            )
+
+    # Commit changes and close the connection
+    conn.commit()
+    conn.close()
+    print("Platform standardization complete.")
+
+def main():
+    
+    standardize_platforms()
+    get_unique_providers()
+
+if __name__ == "__main__":
+    main()
