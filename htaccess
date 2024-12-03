@@ -1,0 +1,16 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/s6jilwoagjb6/public_html/movipickr"
+PassengerBaseURI "/movipickr"
+PassengerPython "/home/s6jilwoagjb6/virtualenv/public_html/movipickr/3.7/bin/python"
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+
+# Add rewrite rules to handle Flask routes
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Exclude static files from routing
+    RewriteCond %{REQUEST_FILENAME} !-f
+
+    # Redirect all other requests to the Flask app
+    RewriteRule ^(.*)$ /movipickr/passenger_wsgi.py [QSA,L]
+</IfModule>

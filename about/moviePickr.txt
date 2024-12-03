@@ -1,0 +1,24 @@
+moviePickr.ooo
+
+Start by selecting the platforms you have
+
+Start swiping!
+
+Swipe up to see information & trailer
+
+Create a library of liked movies with ratings (click on tags you enjoyed about it)
+
+
+
+Further filers in tab for genres, length, etc. 
+
+Build with chatGPT api
+
+make a social mode
+get a user id and share it with another user to find matches
+solo mode
+or do a random user id and see how you match up with someone else!
+
+change fav to bookmark
+
+http://10.0.0.15:3000

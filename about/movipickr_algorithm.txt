@@ -1,0 +1,22 @@
+All With Weights:
+
+genre_similarity : number of shared genres
+similar_genres : genres in the neighborhood of genres the user prefers
+vote_average : similarity or strength of vote count to user preference 
+run_time : similarity of preferred run_times
+release_date : similarity 
+popularity : similarity
+
+Have a like contribute to the user vector by some weight, and a dislike by a negative weight. Vary these weights
+
+
+Interested page, random page, explore page
+
+Initially prefer more popular movies and have a higher risk tolerance as we know more information
+
+nostalgia mode  (or SORT BY DECADE)
+
+
+
+emphasize SQL portion of this project
+"I've seen this before video" -> "Did you enjoy it? Yes / no"

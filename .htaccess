@@ -1,0 +1,10 @@
+PassengerAppRoot /home/s6jilwoagjb6/public_html/movipickr
+PassengerStartupFile passenger_wsgi.py
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Route all requests through Flask except static files
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ /passenger_wsgi.py [QSA,L]
+</IfModule>
